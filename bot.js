@@ -1,6 +1,7 @@
 const Bot = require('./lib/index');
 new Bot({
     token: "",
+    prefix: "",
     watch: [],
     owners: [],
     channel: "",
