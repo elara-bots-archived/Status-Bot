@@ -80,7 +80,9 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
 
 **%user%** - The user's username
 
-**%tag** - The user's Username#tag
+**%tag%** - The user's Username#tag
+
+**%mention%** - The mention for the user
 
 **%id%** - The user's ID
 
