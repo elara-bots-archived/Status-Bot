@@ -87,3 +87,10 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
 **%id%** - The user's ID
 
 **%icon%** - The user's avatar icon url
+
+
+
+**Commands Included**
+=======================
+`status` - Shows all of the statuses from the users in the `watch` array.
+`role` - Gives/Removes the role from the user (`If publicrole is set the true`) - and if the member has `Manage Server` permission they can add/remove members from the role using the command.. (`if publicrole is set to true`)
