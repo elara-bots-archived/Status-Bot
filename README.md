@@ -76,7 +76,7 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
                 -> icon: Sets the icon for the author in the embed
 
 
-**Embed Types:**
+**Embed Types:** - and yes it must include the `%` on both sides
 
 **%user%** - The user's username
 
