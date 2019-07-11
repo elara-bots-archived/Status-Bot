@@ -26,6 +26,7 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
 **Optional Options**
 ========================
 
+
 **role**: The role the bot will ping when the user/bot goes offline
 
 **publicrole**: If false it will not allow others to use the `role` command, other wise it will only work for the bot developers.
@@ -43,7 +44,7 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
         -> url: The twitch link for the playing status (only works for streaming)
         
 
-**embed**: The embed customizer
+**embed**:
     
     -> on: 
      
@@ -73,3 +74,14 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
                 -> name: Sets the name for the author in the embed
                 
                 -> icon: Sets the icon for the author in the embed
+
+
+**Embed Types:**
+
+**%user%** - The user's username
+
+**%tag** - The user's Username#tag
+
+**%id%** - The user's ID
+
+**%icon%** - The user's avatar icon url
