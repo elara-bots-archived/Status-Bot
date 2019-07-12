@@ -89,6 +89,8 @@ Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
 **%icon%** - The user's avatar icon url
 
 
+**%status%** - The user's status, `online, idle, dnd, offline`
+
 
 **Commands Included**
 =======================
