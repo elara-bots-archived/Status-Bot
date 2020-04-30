@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "github:discordjs/discord.js",
-    "discord.js-commando": "github:discordjs/Commando"
+    "discord.js": "11.6.4",
+    "discord.js-commando": "0.10.0"
   }
 }
