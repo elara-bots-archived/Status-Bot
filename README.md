@@ -1,3 +1,12 @@
+# NOTICE
+
+In order for this to work you WILL need to enable these
+![img](https://i.imgur.com/GWXtIOW.png)
+
+On the Discord Developers page for your bot.
+
+
+
 Getting Started
 =========================
 
