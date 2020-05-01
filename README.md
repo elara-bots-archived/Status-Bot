@@ -1,4 +1,10 @@
-# NOTICE
+# REPO Notice
+This code will not work at the moment unless you know how to convert some of the methods to v12 of discord.js
+![warning](https://media1.tenor.com/images/bbb1a23fcf766e5439b3546027f3c2b0/tenor.gif?itemid=10711703)
+
+
+
+# Discord Notice
 
 In order for this to work you WILL need to enable these
 ![img](https://i.imgur.com/GWXtIOW.png)
