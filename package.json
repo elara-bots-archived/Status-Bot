@@ -1,16 +1,27 @@
 {
-  "name": "alertbot",
-  "version": "0.0.1",
+  "name": "status-bot",
+  "version": "3.0.0",
   "description": "",
-  "main": "bot.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node bot.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elara-bots/Status-Bot.git"
+  },
+  "keywords": [
+    "discordbot"
+  ],
+  "author": "SUPERCHIEFYT (Elara-Discord-Bots)",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elara-bots/Status-Bot/issues"
+  },
+  "homepage": "https://github.com/elara-bots/Status-Bot#readme",
   "dependencies": {
-    "discord.js": "11.6.4",
-    "discord.js-commando": "0.10.0"
+    "discord.js": "^12.2.0",
+    "discord.js-commando": "github:discordjs/Commando",
+    "elara-hook": "^1.1.0"
   }
 }
