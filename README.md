@@ -1,8 +1,7 @@
-# REPO Notice
-This code will not work at the moment unless you know how to convert some of the methods to v12 of discord.js
-![warning](https://media1.tenor.com/images/bbb1a23fcf766e5439b3546027f3c2b0/tenor.gif?itemid=10711703)
+# Welcome to the Status Bot repository
 
 
+- Alrighty with the welcome out of the way, lets get started.
 
 # Discord Notice
 
@@ -12,104 +11,30 @@ In order for this to work you WILL need to enable these
 On the Discord Developers page for your bot.
 
 
-
-Getting Started
-=========================
-
-**1.** Download the files or use `git clone` 
-Ex: `git clone https://github.com/Elara-Discord-Bots/Status-Bot.git`
-
-**2.** Once you have the files downloaded open up a console in the bot folder and do `npm install` and let it run fully.
-
-**3.** Fill out the options in the [`bot.js`](https://github.com/Elara-Discord-Bots/Status-Bot/blob/master/bot.js) file.
-
-**Required Options**
-========================
+# Getting started
 
 
-**token**: Your bot token, Get your bot token from the Discord Developers page: [Link](https://discordapp.com/developers/applications/me)
-
-**owners**: The array of the bot owners/developers, how to get your user id: [Link](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)
-
-**watch**: The array of user/bot ids for the bot to watch for, how to get the user ids look at the link above.
-
-**channel**: The channel the bot will post the updates to.
-
-**guild**: The server that the bot will use to only get presence updates from, default is from the channel above. To get the server id look at the link above
+> ⚠ You'll need nodejs v12+ to run this code, due to discord.js-v12
 
 
-**Optional Options**
-========================
+
+- 1. Download the bot or use `git clone https://github.com/elara-bots/Status-Bot`
+- 2. Once you got that done open either `git bash` or `command prompt` in the folder and do `npm install` and wait until it's finished.
+- 3. Go to `index.js` and put in the required information.
+```js
+    owners: [] // Your owner ID, example: owners: ["123456789"]
+    prefix: "?" // Your bot's prefix, example: prefix: "?" // default prefix is "?"
+    token: "" // Your bot's token, you get this from the Discord Developers page, if you're unsure where to get it do a quick google to figure it out.
+    watch: [] // This is an array-object for which users to watch by the bot and announce when they go offline/online
+    // Example: [add("USERID", "WEBHOOK_URL", "GUILD_ID", {role: "ROLE_ID", enabled: true})] // note: the role is optional.. 
+    // Why use webhooks? 
+    // Webhooks allow you to mention the role without needing it mentionable in the server settings. 🙂
+    presence: { // optional
+        status: "", // Types: online, idle, dnd, invisible
+        name: "", // Whatever you want the bot to say it's playing.
+        type: "", // Types: PLAYING, LISTENING, STREAMING, WATCHING
+        url: "" // only needed for the streaming playing status.
+    }
+```
 
 
-**role**: The role the bot will ping when the user/bot goes offline
-
-**publicrole**: If false it will not allow others to use the `role` command, other wise it will only work for the bot developers.
-
-**prefix**: The prefix for the bot, default is: `!`
-
-**presence**: 
-        
-        -> status: The status like online, idle, dnd, invisible
-        
-        -> name: The name of what the bot is playing.
-        
-        -> type: The type of the playing status, like watching, listening, streaming, playing
-        
-        -> url: The twitch link for the playing status (only works for streaming)
-        
-
-**embed**:
-    
-    -> on: 
-     
-      -> thumbnail: Sets the thumbnail for the embed
-      
-      -> title: Sets the title for the embed
-      
-      -> color: Sets the color for the embed
-      
-      -> author:
-                
-                -> name: Sets the name for the author in the embed
-                
-                -> icon: Sets the icon for the author in the embed
-
- 
- -> off: 
-      
-      -> thumbnail: Sets the thumbnail for the embed
-      
-      -> title: Sets the title for the embed
-      
-      -> color: Sets the color for the embed
-      
-      -> author:
-                
-                -> name: Sets the name for the author in the embed
-                
-                -> icon: Sets the icon for the author in the embed
-
-
-**Embed Types:** - and yes it must include the `%` on both sides
-
-**%user%** - The user's username
-
-**%tag%** - The user's Username#tag
-
-**%mention%** - The mention for the user
-
-**%id%** - The user's ID
-
-**%icon%** - The user's avatar icon url
-
-
-**%status%** - The user's status, `online, idle, dnd, offline`
-
-
-**Commands Included**
-=======================
-
-`status` - Shows all of the statuses from the users in the `watch` array.
-
-`role` - Gives/Removes the role from the user (`If publicrole is set the true`) - and if the member has `Manage Server` permission they can add/remove members from the role using the command.. (`if publicrole is set to true`)
