@@ -1,4 +1,4 @@
-const {Command} = require('discord.js-commando'), {MessageEmbed} = require('discord.js');
+const {Command} = require('great-commando'), {MessageEmbed} = require('discord.js');
 module.exports = class Status extends Command{
     constructor(client){
         super(client, {
