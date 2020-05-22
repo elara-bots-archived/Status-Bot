@@ -38,3 +38,7 @@ On the Discord Developers page for your bot.
 ```
 
 
+# Extra Information
+This repository uses: [great-commando](https://github.com/elara-bots/great-commando/tree/v12) [v12 branch].. if you have any issues with the `great-commando` package open an issue in that repository, include the branch you're using.
+
+
