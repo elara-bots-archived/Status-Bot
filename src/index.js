@@ -7,7 +7,7 @@
 
 
 
-const {CommandoClient} = require("discord.js-commando"),
+const {CommandoClient} = require("great-commando"),
       Hook = require("elara-hook"),
       {join} = require("path"),
       getEmbed = (embed, user) => {
