@@ -11,10 +11,11 @@ module.exports = class Status extends Command {
             examples: [`${client.commandPrefix}status`]
         })
     };
+    
     async run(message){
-        let online = [], idle = [], dnd = [], offline = [];
-        await this.client.watch.forEach(async user => {
-            let object = await this.client.users.cache.get(user.userID);
+        let online = [], idle = [], dnd = [], offline = [], streaming = [];
+        await for (let user of client.users.cache) {
+             let object = await this.client.users.cache.get(user.userID);
             switch(object.presence.status){
                 case "online":
                 online.push(`${object.username}`)
@@ -28,15 +29,37 @@ module.exports = class Status extends Command {
                 case 'offline':
                 offline.push(object.username)
                 break;
+                case "streaming":
+                streaming.push(object.username)
+                break;
             }
-        });
-        let e = new MessageEmbed()
-        .setTitle(`Status`)
-        .setColor(message.member.displayColor).setTimestamp()
-        if(offline.length !== 0) e.addField(`**Offline**`, offline.join('\n'))
-        if(online.length !== 0) e.addField(`Online`, online.join('\n'))
-        if(idle.length !== 0) e.addField(`Idle`, idle.join('\n'));
-        if(dnd.length !== 0) e.addField(`Dnd`, dnd.join('\n'))
-        return message.channel.send(e)
+        }
+        return message.channel.send({
+            embed : {
+                color: 0x+message.member.displayColor,
+                fields: [
+              {
+                name: `**Offline**`,
+                value: offline.join('\n') || '-'
+             },
+            {
+                name: `**Online**`,
+                value: online.join('\n') || '-'
+            },
+            {
+                name: `**Idle**`,
+                value: idle.join('\n') || '-'
+            },
+            {
+                name: `**Dnd**`,
+                value: dnd.join('\n') || '-'
+            },
+            {
+                name: `**Streaming**`,
+                value: streaming.join('\n') || '-'
+            }
+        ]
+        }
+        })
     }
 }
