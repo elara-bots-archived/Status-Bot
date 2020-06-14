@@ -1,5 +1,5 @@
 const {Command} = require('great-commando'), 
-{MessageEmbed} = require('discord.js');
+      {MessageEmbed} = require('discord.js');
 module.exports = class Status extends Command {
     constructor(client){
         super(client, {
@@ -12,24 +12,20 @@ module.exports = class Status extends Command {
         })
     };
     async run(message){
-        let online = [], idle = [], dnd = [], offline = [];
-        await this.client.watch.forEach(async user => {
-            let object = await this.client.users.cache.get(user.userID);
+        let online = [], 
+            idle = [], 
+            dnd = [], 
+            offline = [];
+        
+        for (const user of this.client.watch){
+            let object = this.client.users.cache.get(user.userID);
             switch(object.presence.status){
-                case "online":
-                online.push(`${object.username}`)
-                break;
-                case "idle":
-                idle.push(object.username)
-                break;
-                case "dnd":
-                dnd.push(object.username)
-                break;
-                case 'offline':
-                offline.push(object.username)
-                break;
+                case "online": online.push(object.username); break;
+                case "idle": idle.push(object.username); break;
+                case "dnd": dnd.push(object.username); break;
+                case "offline": offline.push(object.username); break;
             }
-        });
+        };
         let e = new MessageEmbed()
         .setTitle(`Status`)
         .setColor(message.member.displayColor).setTimestamp()
@@ -37,6 +33,6 @@ module.exports = class Status extends Command {
         if(online.length !== 0) e.addField(`Online`, online.join('\n'))
         if(idle.length !== 0) e.addField(`Idle`, idle.join('\n'));
         if(dnd.length !== 0) e.addField(`Dnd`, dnd.join('\n'))
-        return message.channel.send(e)
+        return message.channel.send(e).catch(() => null)
     }
 }
