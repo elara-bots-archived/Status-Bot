@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/elara-bots/Status-Bot#readme",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "discord.js": "12.5.3",
     "great-commando": "github:elara-bots/great-commando#v12",
-    "elara-hook": "^1.1.0"
+    "elara-hook": "1.1.0"
   }
 }
