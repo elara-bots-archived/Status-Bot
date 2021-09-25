@@ -11,9 +11,12 @@
     "url": "git+https://github.com/elara-bots/Status-Bot.git"
   },
   "keywords": [
-    "discordbot"
+    "discordbot",
+    "discord",
+    "discord-alert",
+    "discord-alerts"
   ],
-  "author": "SUPERCHIEFYT (Elara-Discord-Bots)",
+  "author": "SUPERCHIEFYT (Elara-Discord-Bots, Elara-Services)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/elara-bots/Status-Bot/issues"
@@ -21,6 +24,7 @@
   "homepage": "https://github.com/elara-bots/Status-Bot#readme",
   "dependencies": {
     "discord.js": "12.5.3",
+    "dotenv": "^10.0.0",
     "great-commando": "github:elara-bots/great-commando#v12",
     "elara-hook": "1.1.0"
   }
