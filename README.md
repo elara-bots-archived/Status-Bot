@@ -23,8 +23,8 @@ On the Discord Developers page for your bot.
 - 3. Go to `index.js` and put in the required information.
 ```js
     owners: [] // Your owner ID, example: owners: ["123456789"]
-    prefix: "?" // Your bot's prefix, example: prefix: "?" // default prefix is "?"
-    token: "" // Your bot's token, you get this from the Discord Developers page, if you're unsure where to get it do a quick google to figure it out.
+    prefix: process.env.PREFIX || "?", // Your bot's prefix, example: prefix: "?" // default prefix is "?"
+    token: process.env.BOT_TOKEN // Put the bot's token in the .env file, instructions down below, you get this from the Discord Developers page, if you're unsure where to get it do a quick google to figure it out.
     watch: [] // This is an array-object for which users to watch by the bot and announce when they go offline/online
     // Example: [add("USERID", "WEBHOOK_URL", "GUILD_ID", {role: "ROLE_ID", enabled: true})] // note: the role is optional.. 
     // Why use webhooks? 
@@ -36,6 +36,7 @@ On the Discord Developers page for your bot.
         url: "" // only needed for the streaming playing status.
     }
 ```
+- 4. Remove the `.example` from the `.env.example` file, fill out the `BOT_TOKEN` field and the `PREFIX` 
 
 
 # Extra Information
