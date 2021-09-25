@@ -1,15 +1,10 @@
-
-
 // DO NOT CHANGE A DAMN THING IN THIS FILE UNLESS YOU KNOW WHAT YOU'RE DOING..
 
 // I ain't responsible for idiots who fuck it up, if you fuck it up don't complain.. I warned you to not mess with this file.
 
-
-
-
-const {CommandoClient} = require("great-commando"),
+const { CommandoClient } = require("great-commando"),
       Hook = require("elara-hook"),
-      {join} = require("path"),
+      { join } = require("path"),
       getEmbed = (embed, user) => {
         function filterArgs(args){
             if(typeof args !== "string") return args;
@@ -18,7 +13,7 @@ const {CommandoClient} = require("great-commando"),
             .replace(/%id%/gi, user.user.id)
             .replace(/%tag%/gi, user.user.tag)
             .replace(/%status%/gi, user.status)
-            .replace(/%icon%/gi, user.user.displayAvatarURL())
+            .replace(/%icon%/gi, user.user.displayAvatarURL({ dynamic: true }))
             .replace(/%mention%/gi, `<@${user.user.id}>`)
             .replace(/%timestamp%/gi, new Date());
         };
@@ -34,11 +29,12 @@ const {CommandoClient} = require("great-commando"),
             },
             author: {
                 name: filterArgs(embed.author.name || ""),
-                icon_url: filterArgs(embed.author.icon_url || "")
+                icon_url: filterArgs(embed.author.icon_url || ""),
+		url: filterArgs(embed.author.url || "")
             }
         }
       }, 
-      log = (content) => console.log(`[${new Date().toISOString()}] - ${content}`),
+      log = (c) => console.log(`[${new Date().toISOString()}] - ${c}`),
       embed = (e, color = 0xFF000, on = false) => {
           let em = {
               title: e.title ? e.title : "",
@@ -52,7 +48,8 @@ const {CommandoClient} = require("great-commando"),
               },
               author: {
                   name: e.author ? e.author.name ? e.author.name : `%tag% ${on ? `has come back online!` : `went offline!`}` : `%tag% ${on ? `has come back online!` : `went offline!`}`,
-                  icon_url: e.author ? e.author.icon_url ? e.author.icon_url : "%icon%" : "%icon%"
+                  icon_url: e.author ? e.author.icon_url ? e.author.icon_url : "%icon%" : "%icon%",
+		  url: e.author ? e.author.url : ""
               }
           };
           return em;
@@ -68,19 +65,21 @@ const {CommandoClient} = require("great-commando"),
           },
           author: {
               name: "",
-              icon_url: ""
+              icon_url: "",
+	      url: ""
           },
           timestamp: "%timestamp%"
       }
 
 
-class StatusService extends CommandoClient{
+module.exports = class StatusService extends CommandoClient {
     //----- Typings ----
     /**
      * 
      * @typedef {Object} AuthorOptions
      * @property {string} [name]
      * @property {string} [icon_url]
+     * @property {string} [url]
      */
     /**
      * 
@@ -131,7 +130,7 @@ class StatusService extends CommandoClient{
      constructor(info){
         super({
             commandPrefix: info.prefix || "?",
-            invite: info.invite || "https://superchiefyt.xyz/support",
+            invite: info.invite || "https://my.elara.services/support",
             owner: info.owners || [],
             shards: "auto",
             fetchAllMembers: true,
@@ -147,8 +146,7 @@ class StatusService extends CommandoClient{
             }
         });
         this.watch = info.watch || [];
-
-        this.console = Boolean(info.console || false) || false;
+        this.console = Boolean(info.console || false);
         this.embed = {
             on: embed(info.embed ? info.embed.on : defEmbed, 0xFF000, true),
             off: embed(info.embed ? info.embed.off : defEmbed, 0xFF0000, false)
@@ -160,7 +158,7 @@ class StatusService extends CommandoClient{
                 log(`Error: "watch" isn't an array!`);
                 return process.exit(1);
             };
-            if(this.watch.length === 0){
+            if(!this.watch.length){
                 log(`You have 0 people in the watch array`);
                 return process.exit(1);
             };
@@ -202,17 +200,12 @@ class StatusService extends CommandoClient{
         this.on("shardResumed", (events, id) => log(`Shard: ${id} has resumed with [${events}] events!`));
         this.on('shardError', (error, id) => log(`Shard: ${id} Error: ${error.stack}`));
         this.on("presenceUpdate", async (o, n) => {
-            if(!o) return null;
-            if(!n) return null;
+            if(!o || !n || !o.status || !n.status || o.status === n.status) return null;
             let find = this.watch.find(c => c.userID === n.user.id);
-            if(!find) return null;
-            if(!o.status || !n.status) return null;
-            if(o.status === n.status) return null;
-            if(n.guild.id !== find.guildID) return null;
-            if(!find.webhook) return null;
+            if(!find || n.guild.id !== find.guildID || !find.webhook) return null;
             if(this.cache.includes(n.user.id)) return null;
             if(n.status === "offline"){
-                let em = await getEmbed(this.embed.off, n);
+                let em = getEmbed(this.embed.off, n);
                 if(!em) return null;
                 let h = new Hook(find.webhook)
                 .setAuthor(em.author.name, em.author.icon_url)
@@ -224,18 +217,12 @@ class StatusService extends CommandoClient{
                 .setFooter(em.footer.text, em.footer.icon_url)
                 .setUsername(this.user.username)
                 .setAvatar(this.user.displayAvatarURL({format: "png"}))
-                if(find.alert.enabled){
-                    if(find.alert.role){
-                        h.setMention(`<@&${find.alert.role}>`);
-                    }
-                };
-                if(this.console === true){
-                    log(`${n.user.tag} (${n.user.id}) has gone offline`);
-                }
+                if(find.alert.enabled && find.alert.role) h.setMention(`<@&${find.alert.role}>`);
+                if(this.console) log(`${n.user.tag} (${n.user.id}) has gone offline`);
                 h.send();
             }else
             if(["online", "idle", "dnd"].includes(n.status) && o.status === "offline"){
-                let em2 = await getEmbed(this.embed.on, n);
+                let em2 = getEmbed(this.embed.on, n);
                 if(!em2) return null;
                 let h = new Hook(find.webhook)
                 .setAuthor(em2.author.name, em2.author.icon_url)
@@ -248,9 +235,7 @@ class StatusService extends CommandoClient{
                 .setUsername(this.user.username)
                 .setAvatar(this.user.displayAvatarURL({format: "png"}))
                 h.send();
-                if(this.console === true){
-                    log(`${n.user.tag} (${n.user.id}) has come back online!`);
-                }
+                if(this.console === true) log(`${n.user.tag} (${n.user.id}) has come back online!`);
             }
         });
 
@@ -270,5 +255,3 @@ class StatusService extends CommandoClient{
         .registerCommandsIn(join(__dirname, 'commands'))
     };
 };
-
-module.exports = StatusService;
