@@ -12,6 +12,7 @@ module.exports = class Status extends Command {
         })
     };
     async run(message){
+          message.channel.startTyping();
         let online = [], 
             idle = [], 
             dnd = [], 
@@ -34,5 +35,6 @@ module.exports = class Status extends Command {
         if(idle.length !== 0) e.addField(`Idle`, idle.join('\n'));
         if(dnd.length !== 0) e.addField(`Dnd`, dnd.join('\n'))
         return message.channel.send(e).catch(() => null)
-    }
-}
+          message.channel.stopTyping();
+    },
+};
