@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/elara-bots/Status-Bot#readme",
   "dependencies": {
+    "discord-hook": "^1.1.4",
     "discord.js": "12.5.3",
     "dotenv": "^10.0.0",
-    "great-commando": "github:elara-bots/great-commando#v12",
-    "elara-hook": "1.1.0"
+    "great-commando": "github:elara-bots/great-commando#v12"
   }
 }

@@ -3,7 +3,7 @@
 // I ain't responsible for idiots who fuck it up, if you fuck it up don't complain.. I warned you to not mess with this file.
 
 const { CommandoClient } = require("great-commando"),
-      Hook = require("elara-hook"),
+      Hook = require("discord-hook"),
       { join } = require("path"),
       getEmbed = (embed, user) => {
         function filterArgs(args){
@@ -14,7 +14,7 @@ const { CommandoClient } = require("great-commando"),
             .replace(/%tag%/gi, user.user.tag)
             .replace(/%status%/gi, user.status)
             .replace(/%icon%/gi, user.user.displayAvatarURL({ dynamic: true }))
-            .replace(/%mention%/gi, `<@${user.user.id}>`)
+            .replace(/%mention%/gi, user.toString())
             .replace(/%timestamp%/gi, new Date());
         };
         return {
@@ -207,35 +207,31 @@ module.exports = class StatusService extends CommandoClient {
             if(n.status === "offline"){
                 let em = getEmbed(this.embed.off, n);
                 if(!em) return null;
+                let { author, title, description, timestamp, color, footer, thumbnail } = em;
                 let h = new Hook(find.webhook)
-                .setAuthor(em.author.name, em.author.icon_url)
-                .setTitle(em.title)
-                .setDescription(em.description)
-                .setThumbnail(em.thumbnail)
-                .setTimestamp(em.timestamp)
-                .setColor(em.color)
-                .setFooter(em.footer.text, em.footer.icon_url)
-                .setUsername(this.user.username)
-                .setAvatar(this.user.displayAvatarURL({format: "png"}))
-                if(find.alert.enabled && find.alert.role) h.setMention(`<@&${find.alert.role}>`);
+                .embed({
+                    author, title, description, timestamp, color, footer,
+                    thumbnail: thumbnail ? { url: thumbnail } : undefined
+                })
+                .name(this.user.username)
+                .avatar(this.user.displayAvatarURL({ format: "png", dynamic: true }))
+                if(find.alert.enabled && find.alert.role) h.mention(`<@&${find.alert.role}>`);
                 if(this.console) log(`${n.user.tag} (${n.user.id}) has gone offline`);
-                h.send();
+                h.send().catch(e => log(`[SEND_WEBHOOK_ERROR]: `, e));
             }else
             if(["online", "idle", "dnd"].includes(n.status) && o.status === "offline"){
-                let em2 = getEmbed(this.embed.on, n);
-                if(!em2) return null;
+                let em = getEmbed(this.embed.on, n);
+                if(!em) return null;
+                let { author, title, description, timestamp, color, footer, thumbnail } = em;
                 let h = new Hook(find.webhook)
-                .setAuthor(em2.author.name, em2.author.icon_url)
-                .setTitle(em2.title)
-                .setDescription(em2.description)
-                .setThumbnail(em2.thumbnail)
-                .setColor(em2.color)
-                .setTimestamp(em2.timestamp)
-                .setFooter(em2.footer.text, em2.footer.icon_url)
-                .setUsername(this.user.username)
-                .setAvatar(this.user.displayAvatarURL({format: "png"}))
-                h.send();
-                if(this.console === true) log(`${n.user.tag} (${n.user.id}) has come back online!`);
+                .embed({
+                    author, title, description, timestamp, color, footer,
+                    thumbnail: thumbnail ? { url: thumbnail } : undefined
+                })
+                .name(this.user.username)
+                .avatar(this.user.displayAvatarURL({ format: "png", dynamic: true }))
+                h.send().catch(e => log(`[SEND_WEBHOOK_ERROR]: `, e));
+                if(this.console) log(`${n.user.tag} (${n.user.id}) has come back online!`);
             }
         });
 
